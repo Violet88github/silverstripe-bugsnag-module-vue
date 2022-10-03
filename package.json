@@ -20,6 +20,8 @@
     "lint-sass": "sass-lint client/src"
   },
   "dependencies": {
+    "@bugsnag/js": "^7.18.0",
+    "@bugsnag/plugin-vue": "^7.18.0",
     "babel-polyfill": "6.7.4",
     "react": "^16.8.3"
   },
