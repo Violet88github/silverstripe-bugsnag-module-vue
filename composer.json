@@ -26,8 +26,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Violet88\\BugsnagModule\\": "src/",
-            "Violet88\\BugsnagModule\\Tests\\": "tests/"
+            "Violet88\\BugsnagVueModule\\": "src/",
+            "Violet88\\BugsnagVueModule\\Tests\\": "tests/"
         }
     },
     "repositories": [

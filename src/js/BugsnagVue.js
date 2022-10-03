@@ -8,7 +8,6 @@ const BugsnagVue = {
       plugins: [new BugsnagPluginVue()],
       appVersion: process.env.VERSION ?? '1.0.0',
     }
-
     const onError = {
       onError: function (event) {
         event.errors[0].stacktrace.forEach(function (frame) {
