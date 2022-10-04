@@ -17,9 +17,23 @@ BUGSNAG_ACTIVE=<true OR false, depending on whether bugsnag should be ACTIVE>
 ```
 8. Test if the module is working by sending an exception to bugsnag using the following code or CLI command
 ### Code
+#### PHP
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
 $bugsnag->sendException(new RuntimeException('Test exception'));
+```
+#### Javascript
+For sending a basic error to Bugsnag, use the following code
+```js
+// Here it is important that the require is pointing to the correct path. Point it to the path where you've installed the composer package.
+const Bugsnag = require('/vendor/Violet88/BugsnagVueModule/src/js/BugsnagVue.js');
+
+Bugsnag.start();
+try{
+    something.risky();
+}catch(e){
+    Bugsnag.notify(e);
+}
 ```
 ### CLI
 For this CLI command to work, make sure you configure the routes correctly. This can be done by adding the following to your routes.yml
@@ -40,7 +54,50 @@ Then, run the following command in your terminal
 php vendor/silverstripe/framework/cli-script.php bugsnag/initial
 ```
 9. If everything is setup correctly, you'll see the exception in your bugsnag dashboard
+10. For the Vue part of the module to work you have to run:
+```bash
+npm install dotenv webpack webpack-bugsnag-plugins
+```
+and add the following to your webpack.mix.js
+```js
+require('dotenv').config();
+let webpack = require('webpack');
+const { BugsnagSourceMapUploaderPlugin } = require('webpack-bugsnag-plugins');
+const PACKAGE_VERSION = process.env.npm_package_version
 
+let dotenvplugin = new webpack.DefinePlugin({
+    'process.env': {
+        'BUGSNAG_API_KEY': JSON.stringify(process.env.BUGSNAG_API_KEY),
+        'VERSION': JSON.stringify(PACKAGE_VERSION)
+    }
+});
+mix.options({legacyNodePolyfills: false})
+mix.webpackConfig({
+    output: {
+        library: 'BugsnagVue',
+        libraryTarget: 'umd',
+        umdNamedDefine: true,
+        globalObject: 'this'
+    },
+    plugins: [
+        dotenvplugin,
+        new BugsnagSourceMapUploaderPlugin({
+            apiKey: process.env.BUGSNAG_API_KEY,
+            appVersion: PACKAGE_VERSION ?? '1.0.0',
+            overwrite: true,
+            publicPath: '*'
+        })
+    ]
+});
+
+```
+Also make sure you generate the sourcemaps, for example by adding `.sourceMaps(true, 'source-map')` between mix.js()). This could look as follows:
+```js
+mix.sourceMaps(true, 'source-map').js([
+    `${theme}/javascript/bundle.js`,
+    //'vendor/violet88github/silverstripe-bugsnag-module-vue/src/js/BugsnagVue.js'
+    ], `${theme}/dist/js/bundle.js`);
+```
 
 ## Catching an error and sending it to Bugsnag
 ```php
@@ -55,6 +112,19 @@ try{
     $bugsnag->sendException($e);
 }
 ```
+To catch errors in Vue, add the following as high up in your javascript stream as possible:
+```js
+const Bugsnag = require('/vendor/Violet88/BugsnagVueModule/src/js/BugsnagVue.js');
+
+Bugsnag.start();
+```
+Add to Vue:
+```js
+Vue.createApp(App)
+  .use(Bugsnag.getVuePlugin())
+  .mount('#app')
+```
+
 ## Sending current release revision to Bugsnag
 ### Through code
 ```php
@@ -100,8 +170,9 @@ SilverStripe\Core\Injector\Injector:
 2. Now any unhandled errors will be sent to Bugsnag
 
 ## Setting up a Bugsnag error message
+### PHP
 Using switches or custom metadata, you can configure the Bugsnag error message. The following standard switches are available and are chainable.
-### User
+#### User
 If a user is logged in, you can use the addUserInfo() switch to add their user info to the Bugsnag message. In the code this would work as follows:
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
@@ -109,7 +180,7 @@ $bugsnag
     ->addUserInfo() //Add false as an argument to remove user info
     ->sendException(new RuntimeException('Test exception'));
 ```
-### Version
+#### Version
 If you have set a project version in your composer.json, you can use the addVersion() switch to add or remove the version in the Bugsnag message. In the code this would work as follows:
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
@@ -117,7 +188,7 @@ $bugsnag
     ->addVersion() //Add false as an argument toremove the version
     ->sendException(new RuntimeException('Test exception'));
 ```
-### Installed packages (without versions)
+#### Installed packages (without versions)
 To add a simple list of packages that are installed in the project, you can use the addInstalledPackages() switch. This list does not include versions, if you wish to include those continue to the next switch. In the code this would work as follows:
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
@@ -126,7 +197,7 @@ $bugsnag
     ->sendException(new RuntimeException('Test exception'));
 ```
 This will automatically retrieve the version as set in your composer.json
-### Installed packages (with versions)
+#### Installed packages (with versions)
 To add a list of packages that are installed in the project, including their versions, you can use the addPackagesWithVersions() switch. In the code this would work as follows:
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
@@ -134,16 +205,16 @@ $bugsnag
     ->addPackagesWithVersions() //Add false as an argument to remove the list of packages
     ->sendException(new RuntimeException('Test exception'));
 ```
-## Custom metadata
+### Custom metadata
 The following custom metadata functions are available
-#### App version
+##### App version
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
 $bugsnag
     ->setAppVersion('1.0.0') /* If this version corresponds to an existing release version in Bugsnag, it will be findable under that release in the dashboard */
     ->sendException(new RuntimeException('Test exception'));
 ```
-#### Release Stage
+##### Release Stage
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
 $bugsnag
@@ -151,7 +222,7 @@ $bugsnag
     ->sendException(new RuntimeException('Test exception'));
 ```
 
-#### Endpoint
+##### Endpoint
 This can be useful when you are using an on premise Bugsnag server
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
@@ -160,7 +231,7 @@ $bugsnag
 ->sendException(new RuntimeException('Test exception'));
 ```
 
-#### Last resort
+##### Last resort
 If all else falls short, you can always add your own key => value pair to the metadata.
 ```php
 $bugsnag = Injector::inst()->get(Bugsnag::class);
@@ -175,3 +246,5 @@ $bugsnag
     ->removeExtraOption('key')
 ->sendException(new RuntimeException('Test exception'));
 ```
+### Javascript
+To customize the Bugsnag error in javascript, have a look at the [Bugsnag documentation](https://docs.bugsnag.com/platforms/javascript/customizing-error-reports/). The same customization options should be available in this module.

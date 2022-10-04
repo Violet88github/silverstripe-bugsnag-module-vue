@@ -24,6 +24,10 @@ composer require violet88/bugsnag-silverstripe
 
 **Note:** Make sure the required modules are installed before using the module.
 
+After installing the composer package, it is important to download the package's npm dependencies. To do this, go into the package directory (for example /vendor/Violet88/BugsnagVueModule) and run the following command:
+```bash
+npm install
+```
 ## License
 See [License](license.md)
 
@@ -58,8 +62,53 @@ SilverStripe\Control\Director:
         'bugsnag//build': 'Violet88\BugsnagModule\BugsnagController'
         'bugsnag//initial': 'Violet88\BugsnagModule\BugsnagController'
 ```
+For the Vue part of the module to work you have to run:
+```bash
+npm install dotenv webpack webpack-bugsnag-plugins
+```
+and add the following to your webpack.mix.js
+```js
+require('dotenv').config();
+let webpack = require('webpack');
+const { BugsnagSourceMapUploaderPlugin } = require('webpack-bugsnag-plugins');
+const PACKAGE_VERSION = process.env.npm_package_version
+
+let dotenvplugin = new webpack.DefinePlugin({
+    'process.env': {
+        'BUGSNAG_API_KEY': JSON.stringify(process.env.BUGSNAG_API_KEY),
+        'VERSION': JSON.stringify(PACKAGE_VERSION)
+    }
+});
+mix.options({legacyNodePolyfills: false})
+mix.webpackConfig({
+    output: {
+        library: 'BugsnagVue',
+        libraryTarget: 'umd',
+        umdNamedDefine: true,
+        globalObject: 'this'
+    },
+    plugins: [
+        dotenvplugin,
+        new BugsnagSourceMapUploaderPlugin({
+            apiKey: process.env.BUGSNAG_API_KEY,
+            appVersion: PACKAGE_VERSION ?? '1.0.0',
+            overwrite: true,
+            publicPath: '*'
+        })
+    ]
+});
+
+```
+Also make sure you generate the sourcemaps, for example by adding `.sourceMaps(true, 'source-map')` between mix.js()). This could look as follows:
+```js
+mix.sourceMaps(true, 'source-map').js([
+    `${theme}/javascript/bundle.js`,
+    //'vendor/violet88github/silverstripe-bugsnag-module-vue/src/js/BugsnagVue.js'
+    ], `${theme}/dist/js/bundle.js`);
+```
 
 ## Basic usage
+### PHP
 For sending a basic error to Bugsnag, use the following code
 ```php
 use Violet88\BugsnagModule\Bugsnag;
@@ -71,6 +120,20 @@ try{
 } catch (Exception $e) {
     $bugsnag = Injector::inst()->get(Bugsnag::class);
     $bugsnag->sendException($e);
+}
+```
+
+### Javascript
+For sending a basic error to Bugsnag, use the following code
+```js
+// Here it is important that the require is pointing to the correct path. Point it to the path where you've installed the composer package.
+const Bugsnag = require('/vendor/Violet88/BugsnagVueModule/src/js/BugsnagVue.js');
+
+Bugsnag.start();
+try{
+    something.risky();
+}catch(e){
+    Bugsnag.notify(e);
 }
 ```
 

@@ -45,6 +45,9 @@ const BugsnagVue = {
   },
   setUser: function (id, email, name) {
     Bugsnag.setUser(id, email, name)
+  },
+  addMetadata: function (section, metadata) {
+    Bugsnag.addMetadata(section, metadata)
   }
 }
 
