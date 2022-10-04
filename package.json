@@ -20,6 +20,7 @@
     "lint-sass": "sass-lint client/src"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.19.3",
     "@bugsnag/js": "^7.18.0",
     "@bugsnag/plugin-vue": "^7.18.0",
     "babel-polyfill": "6.7.4",
@@ -35,7 +36,7 @@
   },
   "babel": {
     "presets": [
-      "env"
+      "@babel/preset-env"
     ],
     "plugins": [
       "transform-object-rest-spread"
