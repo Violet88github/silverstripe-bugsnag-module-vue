@@ -30,12 +30,6 @@
             "Violet88\\BugsnagModule\\Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ],
     "extra": {
         "branch-alias": {
             "dev-master": "2.x-dev"
