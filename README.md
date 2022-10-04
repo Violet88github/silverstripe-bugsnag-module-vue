@@ -16,6 +16,11 @@
 * [phpunit/phpunit](https://packagist.org/packages/phpunit/phpunit)
 * [squizlabs/php_codesniffer](https://packagist.org/packages/squizlabs/php_codesniffer)
 
+## NPM Requirements
+* [webpack](https://www.npmjs.com/package/webpack)
+* [dotenv](https://www.npmjs.com/package/dotenv)
+* [webpack-bugsnag-plugins](https://www.npmjs.com/package/webpack-bugsnag-plugins)
+
 ## Installation
 To install run the following command
 ```bash
