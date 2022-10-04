@@ -1,6 +1,6 @@
 <?php
 
-namespace Violet88\BugsnagVueModule;
+namespace Violet88\BugsnagModule;
 
 use Bugsnag\Client;
 use Bugsnag\Report;
