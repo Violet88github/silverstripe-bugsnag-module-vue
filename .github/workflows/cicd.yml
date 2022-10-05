@@ -91,5 +91,5 @@ jobs:
         url: 'https://packagist.org/api/update-package?username=JanSneeuw&apiToken=${{ secrets.PACKAGIST_SECRET }}'
         method: 'POST'
         customHeaders: '{"Content-Type": "application/json"}'
-        data: '{"repository":{"url":"https://packagist.org/packages/violet88/bugsnag-silverstripe"}}'
+        data: '{"repository":{"url":"https://packagist.org/packages/violet88/bugsnag-silverstripe-vue"}}'
 
