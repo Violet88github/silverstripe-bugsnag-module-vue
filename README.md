@@ -20,11 +20,8 @@
 ## Installation
 To install run the following command
 ```bash
-composer require violet88/bugsnag-silverstripe
+
 ```
-
-**Note:** Make sure the required modules are installed before using the module.
-
 After installing the composer package, it is important to download the package's npm dependencies. To do this, go into the package directory (for example /vendor/Violet88/BugsnagVueModule) and run the following command:
 ```bash
 npm install
@@ -77,6 +74,7 @@ const PACKAGE_VERSION = process.env.npm_package_version
 let dotenvplugin = new webpack.DefinePlugin({
     'process.env': {
         'BUGSNAG_API_KEY': JSON.stringify(process.env.BUGSNAG_API_KEY),
+        'BUGSNAG_ACTIVE': JSON.stringify(process.env.BUGSNAG_ACTIVE),
         'VERSION': JSON.stringify(PACKAGE_VERSION)
     }
 });

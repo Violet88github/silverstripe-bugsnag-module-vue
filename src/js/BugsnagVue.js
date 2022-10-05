@@ -29,7 +29,9 @@ const BugsnagVue = {
     });
   },
   notify: function (e) {
-    Bugsnag.notify(e)
+    if (process.env.BUGSNAG_ACTIVE){
+      Bugsnag.notify(e)
+    }
   },
   getVuePlugin: function () {
     return Bugsnag.getPlugin('vue')
