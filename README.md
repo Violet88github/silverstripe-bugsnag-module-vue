@@ -21,9 +21,18 @@
 * [webpack-bugsnag-plugins](https://www.npmjs.com/package/webpack-bugsnag-plugins)
 
 ## Installation
-To install run the following command
+To install, first add the following to your composer.json
+```json
+"repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+```
+after that run the following command
 ```bash
-
+composer require violet88github/bugsnag-silverstripe-vue
 ```
 After installing the composer package, it is important to download the package's npm dependencies. To do this, go into the package directory (for example /vendor/Violet88/BugsnagVueModule) and run the following command:
 ```bash
@@ -66,15 +75,6 @@ SilverStripe\Control\Director:
 For the Vue part of the module to work you have to run:
 ```bash
 npm install dotenv webpack webpack-bugsnag-plugins
-```
-Then add the following to your composer.json
-```json
-"repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ],
 ```
 and add the following to your webpack.mix.js
 ```js
