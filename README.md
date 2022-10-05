@@ -64,6 +64,15 @@ For the Vue part of the module to work you have to run:
 ```bash
 npm install dotenv webpack webpack-bugsnag-plugins
 ```
+Then add the following to your composer.json
+```json
+"repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+```
 and add the following to your webpack.mix.js
 ```js
 require('dotenv').config();

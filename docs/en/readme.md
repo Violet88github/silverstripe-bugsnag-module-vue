@@ -57,6 +57,15 @@ php vendor/silverstripe/framework/cli-script.php bugsnag/initial
 ```bash
 npm install dotenv webpack webpack-bugsnag-plugins
 ```
+Then add the following to your composer.json
+```json
+"repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+```
 and add the following to your webpack.mix.js
 ```js
 require('dotenv').config();
