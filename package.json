@@ -25,7 +25,6 @@
     "@bugsnag/plugin-vue": "^7.18.0"
   },
   "devDependencies": {
-    "@silverstripe/eslint-config": "^0.0.6",
     "babel-jest": "^23.6.0",
     "enzyme": "^3.3.0",
     "jest-cli": "^23.6.0"
