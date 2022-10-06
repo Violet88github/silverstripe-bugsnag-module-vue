@@ -22,16 +22,13 @@
   "dependencies": {
     "@babel/preset-env": "^7.19.3",
     "@bugsnag/js": "^7.18.0",
-    "@bugsnag/plugin-vue": "^7.18.0",
-    "babel-polyfill": "6.7.4",
-    "react": "^16.8.3"
+    "@bugsnag/plugin-vue": "^7.18.0"
   },
   "devDependencies": {
-    "@silverstripe/eslint-config": "^0.0.5",
-    "@silverstripe/webpack-config": "^1.0.0",
+    "@silverstripe/eslint-config": "^0.0.6",
+    "@silverstripe/webpack-config": "^1.7.0",
     "babel-jest": "^23.6.0",
     "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.10.0",
     "jest-cli": "^23.6.0"
   },
   "babel": {
