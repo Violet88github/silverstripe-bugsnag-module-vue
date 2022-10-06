@@ -28,9 +28,9 @@ const BugsnagVue = {
         ...onError
     });
   },
-  notify: function (e) {
+  notify: function (e, diagnostic, callback) {
     if (process.env.BUGSNAG_ACTIVE === 'true'){
-      Bugsnag.notify(e)
+      Bugsnag.notify(e, diagnostic, callback)
     }
   },
   getVuePlugin: function () {
