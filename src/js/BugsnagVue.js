@@ -29,7 +29,7 @@ const BugsnagVue = {
     });
   },
   notify: function (e) {
-    if (process.env.BUGSNAG_ACTIVE){
+    if (process.env.BUGSNAG_ACTIVE === 'true'){
       Bugsnag.notify(e)
     }
   },
