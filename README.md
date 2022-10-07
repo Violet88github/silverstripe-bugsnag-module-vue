@@ -117,6 +117,10 @@ mix.sourceMaps(true, 'source-map').js([
     //'vendor/violet88github/silverstripe-bugsnag-module-vue/src/js/BugsnagVue.js'
     ], `${theme}/dist/js/bundle.js`);
 ```
+After that go into the module folder (probably vendor/violet88/silverstripe-bugsnag-module-vue) and run the following command:
+```bash
+npm install
+```
 
 ## Basic usage
 ### PHP
