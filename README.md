@@ -128,9 +128,7 @@ mix.sourceMaps(true, 'source-map').js([
 After that add the following to your root composer.json
 ```json
 "scripts": {
-        "install-bugsnag-packages": [
-            "cd vendor/violet88/bugsnag-silverstripe-vue && npm install"
-        ]
+        "install-bugsnag-packages": "cd vendor/violet88/bugsnag-silverstripe-vue && npm install"
     }
 ```
 and run the following command
