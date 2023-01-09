@@ -67,13 +67,8 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "npm install bugsnag-vue",
-            "npm install bugsnag-js"
-        ],
-        "post-update-cmd": [
-            "npm install bugsnag-vue",
-            "npm install bugsnag-js"
+        "install-bugsnag-packages": [
+            "npm install"
         ]
     }
 }
