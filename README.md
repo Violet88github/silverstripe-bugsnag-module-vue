@@ -32,11 +32,19 @@ To install, first add the following to your composer.json
 ```
 after that run the following command
 ```bash
-composer require violet88github/bugsnag-silverstripe-vue
+composer require violet88/bugsnag-silverstripe-vue
 ```
-After installing the composer package, it is important to download the package's npm dependencies. To do this, go into the package directory (for example /vendor/Violet88/BugsnagVueModule) and run the following command:
+After installing the composer package, it is important to install the node dependencies of the module. To make this easier add the following to your composer.json
+```json
+"scripts": {
+        "install-bugsnag-packages": [
+            "cd vendor/violet88/bugsnag-silverstripe-vue && npm install"
+        ]
+    }
+```
+And run the command:
 ```bash
-npm install
+composer install-bugsnag-packages
 ```
 ## License
 See [License](license.md)
@@ -114,12 +122,20 @@ Also make sure you generate the sourcemaps, for example by adding `.sourceMaps(t
 ```js
 mix.sourceMaps(true, 'source-map').js([
     `${theme}/javascript/bundle.js`,
-    //'vendor/violet88github/silverstripe-bugsnag-module-vue/src/js/BugsnagVue.js'
+    //'vendor/violet88/silverstripe-bugsnag-module-vue/src/js/BugsnagVue.js'
     ], `${theme}/dist/js/bundle.js`);
 ```
-After that go into the module folder (probably vendor/violet88/silverstripe-bugsnag-module-vue) and run the following command:
+After that add the following to your root composer.json
+```json
+"scripts": {
+        "install-bugsnag-packages": [
+            "cd vendor/violet88/bugsnag-silverstripe-vue && npm install"
+        ]
+    }
+```
+and run the following command
 ```bash
-npm install
+composer run-script install-bugsnag-packages
 ```
 
 ## Basic usage
